@@ -1,6 +1,6 @@
 ---
 title: "Covid91 vaccine study Final2024"
-author: "Put your name here!"
+author: "Andy Trejo"
 output: 
   html_document:
     number_sections: true
@@ -25,9 +25,39 @@ mutate(across(where(is.character), as.factor))
 A new  preventative vaccine (covid921) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of subpopulations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbage when referencing p-values in conclusions.
 
 ## Males
+```{r}
+require(tidyverse)  # For data manipulation and visualization
+require(tigerstats) # For statistical analysis
+require(forcats)    # For handling categorical variables (factors)
+FinalDat <- read.csv(file="finalSumr2024.csv", header=TRUE)
+FinalData <- FinalDat %>% select(-one_of("X"))
+FinalData <- FinalData %>%
+  mutate(across(where(is.character), as.factor))
+```
 
 
 ## Females
+```{r}
+require(tidyverse)  # For data manipulation and visualization
+require(tigerstats) # For statistical analysis
+require(forcats)    # For handling categorical variables (factors)
+female_data <- FinalData %>% filter(DrugUser == "Female")
+```
+```{r}
+ggplot(female_data, aes(x = DrugUser, y = treatment)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +  # Boxplot with custom colors
+  geom_jitter(color = "darkred", alpha = 0.6, width = 0.1) +  # Add data points as jittered red dots
+  stat_summary(fun = "mean", geom = "point", shape = 18, size = 3, color = "black", fill = "yellow") +  # Add mean points
+  stat_summary(fun = "median", geom = "point", shape = 17, size = 3, color = "black", fill = "green") +  # Add median points
+  labs(title = "Vaccine Effectiveness for Females", 
+       x = "DrugUser", 
+       y = "treatment") +
+  theme_minimal()
+```
+
+
+
+
 
 
 ## LGBTQ
